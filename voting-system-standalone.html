@@ -1,0 +1,1458 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Grand Voting Competition - Sierra Leone</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                min-height: 100vh;
+                color: #334155;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem;
+            }
+
+            /* Header Styles */
+            .header {
+                background: white;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border-bottom: 2px solid #e2e8f0;
+                padding: 2rem 0;
+                text-align: center;
+                animation: slideDown 0.8s ease-out;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(135deg, #8b5cf6, #ec4899);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 1.5rem;
+                animation: bounceIn 1s ease-out 0.3s both;
+            }
+
+            .logo svg {
+                width: 40px;
+                height: 40px;
+                fill: white;
+            }
+
+            .main-title {
+                font-size: 3rem;
+                font-weight: bold;
+                background: linear-gradient(135deg, #8b5cf6, #ec4899);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 1rem;
+                animation: fadeIn 1s ease-out 0.5s both;
+            }
+
+            .subtitle {
+                font-size: 1.25rem;
+                color: #64748b;
+                max-width: 600px;
+                margin: 0 auto;
+                animation: fadeIn 1s ease-out 0.7s both;
+            }
+
+            /* Category Grid */
+            .categories-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+                margin: 3rem 0;
+                animation: fadeInUp 1s ease-out 0.9s both;
+            }
+
+            .category-card {
+                background: white;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+            }
+
+            .category-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            }
+
+            .category-header {
+                height: 4px;
+            }
+
+            .category-content {
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .category-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 1rem;
+                transition: transform 0.3s ease;
+            }
+
+            .category-card:hover .category-icon {
+                transform: scale(1.1);
+            }
+
+            .category-icon svg {
+                width: 32px;
+                height: 32px;
+                fill: white;
+            }
+
+            .category-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                color: #1e293b;
+            }
+
+            .category-description {
+                color: #64748b;
+                margin-bottom: 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .category-fee {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+                color: #059669;
+                font-weight: 600;
+            }
+
+            .vote-button {
+                background: linear-gradient(
+                    135deg,
+                    var(--category-color-start),
+                    var(--category-color-end)
+                );
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .vote-button:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+            }
+
+            /* Statistics Section */
+            .stats-section {
+                background: white;
+                border-radius: 16px;
+                padding: 2rem;
+                margin: 3rem 0;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                animation: fadeInUp 1s ease-out 1.2s both;
+            }
+
+            .stats-title {
+                text-align: center;
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 2rem;
+                color: #1e293b;
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 2rem;
+            }
+
+            .stat-item {
+                text-align: center;
+            }
+
+            .stat-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 1rem;
+            }
+
+            .stat-icon svg {
+                width: 32px;
+                height: 32px;
+                fill: white;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #1e293b;
+                margin-bottom: 0.5rem;
+            }
+
+            .stat-label {
+                color: #64748b;
+                font-size: 1rem;
+            }
+
+            /* Modal Styles */
+            .modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                animation: fadeIn 0.3s ease-out;
+            }
+
+            .modal.show {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+            }
+
+            .modal-content {
+                background: white;
+                border-radius: 16px;
+                padding: 2rem;
+                max-width: 500px;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+                animation: slideUp 0.3s ease-out;
+            }
+
+            .modal-header {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #1e293b;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: #374151;
+            }
+
+            .form-input,
+            .form-select {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                font-size: 1rem;
+                transition: border-color 0.3s ease;
+            }
+
+            .form-input:focus,
+            .form-select:focus {
+                outline: none;
+                border-color: #8b5cf6;
+            }
+
+            .contestants-grid {
+                display: grid;
+                gap: 1rem;
+                max-height: 300px;
+                overflow-y: auto;
+                margin-bottom: 1rem;
+            }
+
+            .contestant-card {
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 1rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .contestant-card:hover {
+                border-color: #8b5cf6;
+                background: #f8fafc;
+            }
+
+            .contestant-card.selected {
+                border-color: #8b5cf6;
+                background: #f3f4f6;
+            }
+
+            .contestant-name {
+                font-weight: 600;
+                margin-bottom: 0.25rem;
+                color: #1e293b;
+            }
+
+            .contestant-bio {
+                font-size: 0.875rem;
+                color: #64748b;
+                margin-bottom: 0.5rem;
+            }
+
+            .contestant-votes {
+                background: #e5e7eb;
+                color: #374151;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                display: inline-block;
+            }
+
+            .vote-summary {
+                background: #f8fafc;
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .summary-title {
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: #1e293b;
+            }
+
+            .summary-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.25rem;
+                font-size: 0.875rem;
+                color: #64748b;
+            }
+
+            .summary-total {
+                font-weight: 600;
+                color: #1e293b;
+                border-top: 1px solid #e5e7eb;
+                padding-top: 0.5rem;
+                margin-top: 0.5rem;
+            }
+
+            .payment-info {
+                background: #dbeafe;
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .payment-info-title {
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: #1e40af;
+            }
+
+            .payment-info-text {
+                font-size: 0.875rem;
+                color: #1e40af;
+            }
+
+            .button-group {
+                display: flex;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .btn {
+                flex: 1;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: none;
+                font-size: 1rem;
+            }
+
+            .btn-outline {
+                background: white;
+                color: #6b7280;
+                border: 2px solid #e5e7eb;
+            }
+
+            .btn-outline:hover {
+                border-color: #9ca3af;
+            }
+
+            .btn-primary {
+                background: linear-gradient(135deg, #8b5cf6, #ec4899);
+                color: white;
+            }
+
+            .btn-primary:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+            }
+
+            .btn-primary:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+            .loading-spinner {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                border: 2px solid #ffffff;
+                border-radius: 50%;
+                border-top-color: transparent;
+                animation: spin 1s linear infinite;
+                margin-right: 0.5rem;
+            }
+
+            /* Animations */
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes bounceIn {
+                0% {
+                    transform: scale(0);
+                }
+                50% {
+                    transform: scale(1.2);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    transform: translateY(30px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes slideUp {
+                from {
+                    transform: translateY(30px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Category-specific colors */
+            .beauty {
+                --category-color-start: #ec4899;
+                --category-color-end: #f43f5e;
+            }
+            .dolomite {
+                --category-color-start: #8b5cf6;
+                --category-color-end: #6366f1;
+            }
+            .filing {
+                --category-color-start: #06b6d4;
+                --category-color-end: #0891b2;
+            }
+            .youth {
+                --category-color-start: #10b981;
+                --category-color-end: #059669;
+            }
+            .sim {
+                --category-color-start: #f59e0b;
+                --category-color-end: #d97706;
+            }
+            .place {
+                --category-color-start: #eab308;
+                --category-color-end: #ca8a04;
+            }
+
+            .beauty .category-header {
+                background: linear-gradient(135deg, #ec4899, #f43f5e);
+            }
+            .dolomite .category-header {
+                background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            }
+            .filing .category-header {
+                background: linear-gradient(135deg, #06b6d4, #0891b2);
+            }
+            .youth .category-header {
+                background: linear-gradient(135deg, #10b981, #059669);
+            }
+            .sim .category-header {
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+            }
+            .place .category-header {
+                background: linear-gradient(135deg, #eab308, #ca8a04);
+            }
+
+            .beauty .category-icon {
+                background: linear-gradient(135deg, #ec4899, #f43f5e);
+            }
+            .dolomite .category-icon {
+                background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            }
+            .filing .category-icon {
+                background: linear-gradient(135deg, #06b6d4, #0891b2);
+            }
+            .youth .category-icon {
+                background: linear-gradient(135deg, #10b981, #059669);
+            }
+            .sim .category-icon {
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+            }
+            .place .category-icon {
+                background: linear-gradient(135deg, #eab308, #ca8a04);
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .main-title {
+                    font-size: 2rem;
+                }
+
+                .categories-grid {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+
+                .modal-content {
+                    margin: 1rem;
+                    padding: 1.5rem;
+                }
+
+                .button-group {
+                    flex-direction: column;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        />
+                    </svg>
+                </div>
+                <h1 class="main-title">Grand Voting Competition</h1>
+                <p class="subtitle">
+                    Vote for your favorite candidates across multiple
+                    categories. Each vote requires payment and includes SMS
+                    confirmation.
+                </p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container">
+            <!-- Categories Grid -->
+            <div class="categories-grid">
+                <div
+                    class="category-card beauty"
+                    onclick="openVoteModal('beauty')"
+                >
+                    <div class="category-header"></div>
+                    <div class="category-content">
+                        <div class="category-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.4-6.3-4.6-6.3 4.6 2.3-7.4-6-4.6h7.6z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="category-title">Beauty Contest</h3>
+                        <p class="category-description">
+                            Vote for the most beautiful contestant
+                        </p>
+                        <div class="category-fee">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                                />
+                            </svg>
+                            <span>Le 5,000 per vote</span>
+                        </div>
+                        <button class="vote-button">
+                            Vote Now
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="category-card dolomite"
+                    onclick="openVoteModal('dolomite')"
+                >
+                    <div class="category-header"></div>
+                    <div class="category-content">
+                        <div class="category-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="category-title">Dolomite Challenge</h3>
+                        <p class="category-description">
+                            Technical skills and innovation
+                        </p>
+                        <div class="category-fee">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                                />
+                            </svg>
+                            <span>Le 3,000 per vote</span>
+                        </div>
+                        <button class="vote-button">
+                            Vote Now
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="category-card filing"
+                    onclick="openVoteModal('filing')"
+                >
+                    <div class="category-header"></div>
+                    <div class="category-content">
+                        <div class="category-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-4v2H5c-1.1 0-2 .9-2 2v1h16V6c0-1.1-.9-2-2-2zM5 19h14V8H5v11z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="category-title">Filing Excellence</h3>
+                        <p class="category-description">
+                            Administrative and organizational skills
+                        </p>
+                        <div class="category-fee">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                                />
+                            </svg>
+                            <span>Le 2,500 per vote</span>
+                        </div>
+                        <button class="vote-button">
+                            Vote Now
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="category-card youth"
+                    onclick="openVoteModal('youth')"
+                >
+                    <div class="category-header"></div>
+                    <div class="category-content">
+                        <div class="category-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 7h-5.08c-.8 0-1.54.5-1.85 1.26l-1.92 5.77A2 2 0 0 0 11.6 16H16v6h4z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="category-title">Youth Leadership</h3>
+                        <p class="category-description">
+                            Outstanding young leaders
+                        </p>
+                        <div class="category-fee">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                                />
+                            </svg>
+                            <span>Le 4,000 per vote</span>
+                        </div>
+                        <button class="vote-button">
+                            Vote Now
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="category-card sim" onclick="openVoteModal('sim')">
+                    <div class="category-header"></div>
+                    <div class="category-content">
+                        <div class="category-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="category-title">SIM Innovation</h3>
+                        <p class="category-description">
+                            Technology and communication excellence
+                        </p>
+                        <div class="category-fee">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                                />
+                            </svg>
+                            <span>Le 3,500 per vote</span>
+                        </div>
+                        <button class="vote-button">
+                            Vote Now
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="category-card place"
+                    onclick="openVoteModal('place')"
+                >
+                    <div class="category-header"></div>
+                    <div class="category-content">
+                        <div class="category-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="category-title">Best Place</h3>
+                        <p class="category-description">
+                            Most amazing locations and venues
+                        </p>
+                        <div class="category-fee">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                                />
+                            </svg>
+                            <span>Le 2,000 per vote</span>
+                        </div>
+                        <button class="vote-button">
+                            Vote Now
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div class="stats-section">
+                <h2 class="stats-title">Live Voting Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div
+                            class="stat-icon"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    #06b6d4,
+                                    #8b5cf6
+                                );
+                            "
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 7h-5.08c-.8 0-1.54.5-1.85 1.26l-1.92 5.77A2 2 0 0 0 11.6 16H16v6h4z"
+                                />
+                            </svg>
+                        </div>
+                        <div class="stat-number" id="totalVotes">1,247</div>
+                        <div class="stat-label">Total Votes</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div
+                            class="stat-icon"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    #10b981,
+                                    #059669
+                                );
+                            "
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-4v2H5c-1.1 0-2 .9-2 2v1h16V6c0-1.1-.9-2-2-2zM5 19h14V8H5v11z"
+                                />
+                            </svg>
+                        </div>
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div
+                            class="stat-icon"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    #ec4899,
+                                    #f43f5e
+                                );
+                            "
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                                />
+                            </svg>
+                        </div>
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Contestants</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Vote Modal -->
+        <div id="voteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-4v2H5c-1.1 0-2 .9-2 2v1h16V6c0-1.1-.9-2-2-2zM5 19h14V8H5v11z"
+                        />
+                    </svg>
+                    <span id="modalTitle">Vote for Category</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="voterName">Your Name</label>
+                    <input
+                        type="text"
+                        id="voterName"
+                        class="form-input"
+                        placeholder="Enter your full name"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="voterPhone"
+                        >Phone Number</label
+                    >
+                    <input
+                        type="tel"
+                        id="voterPhone"
+                        class="form-input"
+                        placeholder="Enter your phone number"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Contestant</label>
+                    <div id="contestantsGrid" class="contestants-grid">
+                        <!-- Contestants will be populated here -->
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-outline" onclick="closeVoteModal()">
+                        Cancel
+                    </button>
+                    <button
+                        class="btn btn-primary"
+                        onclick="proceedToPayment()"
+                    >
+                        Proceed to Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div id="paymentModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                        />
+                    </svg>
+                    <span id="paymentTitle">Payment</span>
+                </div>
+
+                <div class="vote-summary">
+                    <div class="summary-title">Vote Summary</div>
+                    <div class="summary-item">
+                        <span>Category:</span>
+                        <span id="summaryCategory"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Contestant:</span>
+                        <span id="summaryContestant"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Voter:</span>
+                        <span id="summaryVoter"></span>
+                    </div>
+                    <div class="summary-item summary-total">
+                        <span>Amount:</span>
+                        <span id="summaryAmount"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="paymentMethod"
+                        >Payment Method</label
+                    >
+                    <select id="paymentMethod" class="form-select">
+                        <option value="">Choose payment method</option>
+                        <option value="mobile_money">Mobile Money</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                    </select>
+                </div>
+
+                <div class="payment-info">
+                    <div class="payment-info-title">Payment Instructions:</div>
+                    <div class="payment-info-text">
+                        You will receive SMS instructions for payment after
+                        submitting. Your vote will be confirmed once payment is
+                        completed.
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-outline" onclick="backToVote()">
+                        Back
+                    </button>
+                    <button
+                        class="btn btn-primary"
+                        id="confirmVoteBtn"
+                        onclick="confirmVote()"
+                    >
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                        >
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                        </svg>
+                        Confirm Vote
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Data
+            const categories = {
+                beauty: { name: "Beauty Contest", fee: "5,000" },
+                dolomite: { name: "Dolomite Challenge", fee: "3,000" },
+                filing: { name: "Filing Excellence", fee: "2,500" },
+                youth: { name: "Youth Leadership", fee: "4,000" },
+                sim: { name: "SIM Innovation", fee: "3,500" },
+                place: { name: "Best Place", fee: "2,000" },
+            };
+
+            const contestants = {
+                beauty: [
+                    {
+                        id: "1",
+                        name: "Sarah Johnson",
+                        bio: "Professional model and beauty enthusiast",
+                        votes: 245,
+                    },
+                    {
+                        id: "2",
+                        name: "Maria Garcia",
+                        bio: "Actress and social media influencer",
+                        votes: 189,
+                    },
+                    {
+                        id: "3",
+                        name: "Fatima Hassan",
+                        bio: "Fashion designer and entrepreneur",
+                        votes: 321,
+                    },
+                    {
+                        id: "4",
+                        name: "Lisa Chen",
+                        bio: "Beauty pageant veteran",
+                        votes: 167,
+                    },
+                ],
+                dolomite: [
+                    {
+                        id: "1",
+                        name: "John Tech",
+                        bio: "Software engineer and innovator",
+                        votes: 198,
+                    },
+                    {
+                        id: "2",
+                        name: "Ahmed Ali",
+                        bio: "Mechanical engineer",
+                        votes: 156,
+                    },
+                    {
+                        id: "3",
+                        name: "Grace Williams",
+                        bio: "Data scientist",
+                        votes: 234,
+                    },
+                    {
+                        id: "4",
+                        name: "David Kim",
+                        bio: "AI researcher",
+                        votes: 178,
+                    },
+                ],
+                filing: [
+                    {
+                        id: "1",
+                        name: "Susan Brown",
+                        bio: "Administrative professional",
+                        votes: 143,
+                    },
+                    {
+                        id: "2",
+                        name: "Michael Davis",
+                        bio: "Office manager",
+                        votes: 167,
+                    },
+                    {
+                        id: "3",
+                        name: "Jennifer Wilson",
+                        bio: "Executive assistant",
+                        votes: 189,
+                    },
+                    {
+                        id: "4",
+                        name: "Robert Taylor",
+                        bio: "Operations coordinator",
+                        votes: 134,
+                    },
+                ],
+                youth: [
+                    {
+                        id: "1",
+                        name: "Alex Thompson",
+                        bio: "Student council president",
+                        votes: 289,
+                    },
+                    {
+                        id: "2",
+                        name: "Zara Mohamed",
+                        bio: "Youth activist",
+                        votes: 312,
+                    },
+                    {
+                        id: "3",
+                        name: "Carlos Rivera",
+                        bio: "Community organizer",
+                        votes: 198,
+                    },
+                    {
+                        id: "4",
+                        name: "Aisha Kamara",
+                        bio: "Young entrepreneur",
+                        votes: 234,
+                    },
+                ],
+                sim: [
+                    {
+                        id: "1",
+                        name: "Tech Solutions Inc",
+                        bio: "Leading mobile provider",
+                        votes: 187,
+                    },
+                    {
+                        id: "2",
+                        name: "Digital Connect",
+                        bio: "Innovation in communications",
+                        votes: 145,
+                    },
+                    {
+                        id: "3",
+                        name: "Smart Networks",
+                        bio: "Advanced telecommunications",
+                        votes: 223,
+                    },
+                    {
+                        id: "4",
+                        name: "Future Comm",
+                        bio: "Next-gen communication solutions",
+                        votes: 167,
+                    },
+                ],
+                place: [
+                    {
+                        id: "1",
+                        name: "City Park Central",
+                        bio: "Beautiful urban oasis",
+                        votes: 456,
+                    },
+                    {
+                        id: "2",
+                        name: "Riverside Mall",
+                        bio: "Premier shopping destination",
+                        votes: 389,
+                    },
+                    {
+                        id: "3",
+                        name: "Cultural Center",
+                        bio: "Hub of arts and culture",
+                        votes: 234,
+                    },
+                    {
+                        id: "4",
+                        name: "Sports Complex",
+                        bio: "State-of-the-art facilities",
+                        votes: 298,
+                    },
+                ],
+            };
+
+            // State
+            let currentCategory = "";
+            let selectedContestant = null;
+
+            // Functions
+            function openVoteModal(category) {
+                currentCategory = category;
+                selectedContestant = null;
+
+                document.getElementById("modalTitle").textContent =
+                    `Vote for ${categories[category].name}`;
+                document.getElementById("voterName").value = "";
+                document.getElementById("voterPhone").value = "";
+
+                // Populate contestants
+                const contestantsGrid =
+                    document.getElementById("contestantsGrid");
+                contestantsGrid.innerHTML = "";
+
+                contestants[category].forEach((contestant) => {
+                    const contestantCard = document.createElement("div");
+                    contestantCard.className = "contestant-card";
+                    contestantCard.onclick = () => selectContestant(contestant);
+
+                    contestantCard.innerHTML = `
+                    <div class="contestant-name">${contestant.name}</div>
+                    <div class="contestant-bio">${contestant.bio}</div>
+                    <span class="contestant-votes">${contestant.votes} votes</span>
+                `;
+
+                    contestantsGrid.appendChild(contestantCard);
+                });
+
+                document.getElementById("voteModal").classList.add("show");
+            }
+
+            function closeVoteModal() {
+                document.getElementById("voteModal").classList.remove("show");
+            }
+
+            function selectContestant(contestant) {
+                selectedContestant = contestant;
+
+                // Update UI
+                document
+                    .querySelectorAll(".contestant-card")
+                    .forEach((card) => {
+                        card.classList.remove("selected");
+                    });
+
+                event.target
+                    .closest(".contestant-card")
+                    .classList.add("selected");
+            }
+
+            function proceedToPayment() {
+                const voterName = document
+                    .getElementById("voterName")
+                    .value.trim();
+                const voterPhone = document
+                    .getElementById("voterPhone")
+                    .value.trim();
+
+                if (!voterName || !voterPhone || !selectedContestant) {
+                    alert("Please fill all fields and select a contestant.");
+                    return;
+                }
+
+                // Update payment modal
+                document.getElementById("paymentTitle").textContent =
+                    `Payment - Le ${categories[currentCategory].fee}`;
+                document.getElementById("summaryCategory").textContent =
+                    categories[currentCategory].name;
+                document.getElementById("summaryContestant").textContent =
+                    selectedContestant.name;
+                document.getElementById("summaryVoter").textContent = voterName;
+                document.getElementById("summaryAmount").textContent =
+                    `Le ${categories[currentCategory].fee}`;
+                document.getElementById("paymentMethod").value = "";
+
+                // Switch modals
+                closeVoteModal();
+                document.getElementById("paymentModal").classList.add("show");
+            }
+
+            function backToVote() {
+                document
+                    .getElementById("paymentModal")
+                    .classList.remove("show");
+                document.getElementById("voteModal").classList.add("show");
+            }
+
+            function confirmVote() {
+                const paymentMethod =
+                    document.getElementById("paymentMethod").value;
+                const voterPhone = document
+                    .getElementById("voterPhone")
+                    .value.trim();
+
+                if (!paymentMethod) {
+                    alert("Please select a payment method.");
+                    return;
+                }
+
+                // Show loading state
+                const confirmBtn = document.getElementById("confirmVoteBtn");
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = `
+                <span class="loading-spinner"></span>
+                Processing...
+            `;
+
+                // Simulate vote submission
+                setTimeout(() => {
+                    // Update vote count
+                    selectedContestant.votes++;
+
+                    // Update total votes
+                    const totalVotesElement =
+                        document.getElementById("totalVotes");
+                    const currentTotal = parseInt(
+                        totalVotesElement.textContent.replace(",", ""),
+                    );
+                    totalVotesElement.textContent = (
+                        currentTotal + 1
+                    ).toLocaleString();
+
+                    // Show success message
+                    alert(
+                        `Vote Submitted Successfully!\n\nYour vote for ${selectedContestant.name} has been recorded.\nSMS confirmation sent to ${voterPhone}\n\nTransaction ID: TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    );
+
+                    // Reset and close modals
+                    document
+                        .getElementById("paymentModal")
+                        .classList.remove("show");
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Confirm Vote
+                `;
+                }, 2000);
+            }
+
+            // Close modal when clicking outside
+            document.addEventListener("click", function (event) {
+                if (event.target.classList.contains("modal")) {
+                    event.target.classList.remove("show");
+                }
+            });
+
+            // Phone number formatting
+            document
+                .getElementById("voterPhone")
+                .addEventListener("input", function (e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    if (value.startsWith("232")) {
+                        value = "+" + value;
+                    } else if (value.length > 0 && !value.startsWith("+")) {
+                        value = "+232" + value;
+                    }
+                    e.target.value = value;
+                });
+
+            // Update stats periodically
+            setInterval(() => {
+                const totalVotesElement = document.getElementById("totalVotes");
+                const currentTotal = parseInt(
+                    totalVotesElement.textContent.replace(",", ""),
+                );
+                const newTotal = currentTotal + Math.floor(Math.random() * 3);
+                totalVotesElement.textContent = newTotal.toLocaleString();
+            }, 30000);
+        </script>
+    </body>
+</html>
